@@ -414,6 +414,27 @@ def main():
     csv_path = os.path.join(os.path.dirname(__file__), "data", "summary_results.csv")
     summary.to_csv(csv_path, index=False)
 
+    # ==================================================================
+    # 個別試行CSV（統計検定用の生データ）
+    # ==================================================================
+    raw_rows = []
+    def collect_raw(scenario_name, dfs, col="CoopRatio"):
+        for i, df in enumerate(dfs):
+            raw_rows.append({"scenario": scenario_name, "run": i, "final_coop_ratio": df[col].iloc[-1]})
+
+    collect_raw("baseline", dfs_base)
+    for rr in resource_rates:
+        collect_raw(f"A_rate{rr}", results_a[rr])
+    for k in scenario_b_keys:
+        collect_raw(k, results_b[k])
+    for k in scenario_c_keys:
+        collect_raw(k, results_c[k])
+
+    raw_df = pd.DataFrame(raw_rows)
+    raw_csv_path = os.path.join(os.path.dirname(__file__), "data", "raw_results.csv")
+    raw_df.to_csv(raw_csv_path, index=False)
+    print(f"-> {raw_csv_path} 保存完了（統計検定用個別試行データ）")
+
     print()
     print("=" * 60)
     print("全グラフ生成完了！")
