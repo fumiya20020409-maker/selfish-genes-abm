@@ -42,6 +42,7 @@ plt.rcParams.update({
     "figure.dpi": 150,
     "savefig.dpi": 300,
     "savefig.bbox": "tight",
+    "font.family": "Noto Sans JP",
 })
 
 # N_STEPS 設定根拠（指摘⑥への対応）：

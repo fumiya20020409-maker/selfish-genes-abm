@@ -19,6 +19,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+matplotlib.rcParams["font.family"] = "Noto Sans JP"
 import numpy as np
 import pandas as pd
 
