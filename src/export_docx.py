@@ -23,7 +23,8 @@ def add_heading(doc, text, level):
 def add_paragraph(doc, text):
     """太字�EイタリチE��記法を処琁E��てパラグラフを追加"""
     p = doc.add_paragraph()
-    # **bold** と *italic* を交互に処琁E    parts = re.split(r'(\*\*[^*]+\*\*|\*[^*]+\*)', text)
+    # **bold** と *italic* を交互に処理
+    parts = re.split(r'(\*\*[^*]+\*\*|\*[^*]+\*)', text)
     for part in parts:
         if part.startswith('**') and part.endswith('**'):
             run = p.add_run(part[2:-2])
@@ -61,7 +62,8 @@ def add_table_from_md(doc, lines):
 def main():
     doc = Document()
 
-    # 余白設宁E    for section in doc.sections:
+    # 余白設定
+    for section in doc.sections:
         section.top_margin    = Inches(1)
         section.bottom_margin = Inches(1)
         section.left_margin   = Inches(1.2)
@@ -135,7 +137,7 @@ def main():
         i += 1
 
     doc.save(OUT_PATH)
-    print(f"保存完亁E {OUT_PATH}")
+    print(f"保存完了: {OUT_PATH}")
 
 if __name__ == "__main__":
     main()
