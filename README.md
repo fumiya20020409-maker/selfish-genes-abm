@@ -1,44 +1,46 @@
 # 利己的な遺伝子シミュレーション
 **Selfish Genes Simulation — Agent-Based Model using Mesa**
 
-> **これはAIエージェント（IBM Bob）への指示だけで、週末2日で作った研究シミュレーションです。**  
-> 作り方の記録は [HOW_I_BUILT_THIS.md](HOW_I_BUILT_THIS.md) を参照してください。
+> AIエージェント（IBM Bob）への指示だけで、**週末2日**で作った研究シミュレーションです。
 
 ---
 
-## 何をするシミュレーションか
+## まずどれを読めばいいか
 
-「協力する個体」と「裏切る個体」が 50×50 のグリッド上で生存競争を繰り広げます。  
-空間構造・血縁認識・移動性という3つの条件を変えながら、**協力行動がどう維持されるか（または崩壊するか）** を観察します。
+| あなたは | 読むファイル |
+|---|---|
+| 「AIエージェントでどう作ったか」が知りたい | [PROCESS.md](PROCESS.md) |
+| シミュレーションを動かしてみたい | このREADMEの「動かし方」へ |
+| 論文の中身を読みたい | [docs/paper.md](docs/paper.md) |
+| コードの改訂経緯を追いたい | [CHANGELOG.md](CHANGELOG.md) |
 
-理論的背景は進化ゲーム理論（Nowak & May 1992, Hamilton 1964）ですが、  
-**生物学の専門知識がなくても動かして試せます。**
+---
+
+## このリポジトリは何か
+
+「協力する個体」と「裏切る個体」が 50×50 のグリッド上で生存競争を繰り広げます。
+空間構造・血縁認識・移動性という3つの条件を変えながら、**協力行動がどう維持されるか** を観察します。
+
+理論的背景は進化ゲーム理論（Nowak & May 1992）ですが、**専門知識がなくても動かして試せます。**
 
 ---
 
 ## 動かし方
 
-### セットアップ
-
 ```bash
+# セットアップ（初回のみ）
 pip install -r requirements.txt
-```
 
-### インタラクティブダッシュボード（おすすめ）
-
-```bash
+# インタラクティブダッシュボード（おすすめ）
+cd src
 solara run app.py
-```
+# → ブラウザで http://localhost:8765 が開く。スライダーでパラメータをリアルタイムに変更できる。
 
-ブラウザで `http://localhost:8765` が開きます。スライダーでパラメータをリアルタイムに変えながら実験できます。
-
-### 論文用グラフを再現する
-
-```bash
+# 論文用グラフを再現する（約7〜8分）
+cd src
 python run_analysis.py
+# → data/figures/ に図1〜5が出力される
 ```
-
-`data/figures/` に図1〜5が出力されます（全実験で約7〜8分）。
 
 ---
 
@@ -59,36 +61,31 @@ python run_analysis.py
 
 ---
 
-## プロジェクト構成
+## ファイル構成
 
 ```
-selfish_genes/
-├── HOW_I_BUILT_THIS.md  # AIエージェントでの制作プロセス記録
-├── agents.py            # GeneAgent クラス
-├── model.py             # SelfishGeneModel クラス（ODD プロトコル準拠）
-├── app.py               # Solara インタラクティブダッシュボード
-├── run_analysis.py      # 論文用グラフ生成スクリプト（図1〜5）
-├── batch_run.py         # パラメータ感度分析スクリプト（図6）
-├── paper_draft.md       # 論文本文
-├── CHANGELOG.md         # Bobとの改訂履歴
-├── requirements.txt     # 依存ライブラリ
+/
+├── README.md        ← いまここ。全体の入口
+├── PROCESS.md       ← AIエージェントでの制作プロセス記録（読み物）
+├── CHANGELOG.md     ← Bobとの改訂履歴
+├── requirements.txt ← 依存ライブラリ
+│
+├── docs/
+│   └── paper.md     ← 論文本文
+│
+├── src/（シミュレーション本体）
+│   ├── agents.py    ← エージェントの定義
+│   ├── model.py     ← モデルの定義（実験設計の核）
+│   ├── app.py       ← インタラクティブダッシュボード
+│   ├── run_analysis.py  ← 論文用グラフ生成（図1〜5）
+│   └── batch_run.py     ← 感度分析（図6）
+│
 ├── notebooks/
-│   └── analysis.ipynb   # Jupyter Notebook版
+│   └── analysis.ipynb   ← Jupyter Notebook版
+│
 └── data/
-    ├── figures/                  # グラフ出力先
-    ├── summary_results.csv       # 実験結果サマリー
-    └── sensitivity_results.csv   # 感度分析結果
+    └── figures/     ← グラフ出力先（run_analysis.py 実行後に生成）
 ```
-
----
-
-## 実行時間の目安
-
-| 処理 | 時間 |
-|---|---|
-| 1試行 × 500ステップ | 約 1.2 秒 |
-| `run_analysis.py` 全体（N_RUNS=20） | 約 7〜8 分 |
-| `batch_run.py` 感度分析（N_RUNS=10） | 約 3〜4 分 |
 
 ---
 
