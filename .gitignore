@@ -1,0 +1,23 @@
+﻿__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# 実験データ（再現は run_analysis.py で可能）
+data/figures/
+data/summary_results.csv
+data/sensitivity_results.csv
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.cursor/
