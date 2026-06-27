@@ -1,12 +1,8 @@
-"""
-stat_test.py — Mann-Whitney U 検定スクリプト
+﻿"""
+stat_test.py  EMann-Whitney U 検定スクリプト
 
-raw_results.csv（個別試行の最終協力率）を読み込み、
-各シナリオ内の条件ペアについて Mann-Whitney U 検定を実施し、
-結果を stat_test_results.csv として出力する。
-
-実行方法：
-    cd selfish_genes
+raw_results.csv�E�個別試行�E最終協力率�E�を読み込み、E吁E��ナリオ冁E�E条件ペアにつぁE�� Mann-Whitney U 検定を実施し、E結果めEstat_test_results.csv として出力する、E
+実行方法！E    cd selfish_genes
     python src/stat_test.py
 """
 import sys, os
@@ -22,7 +18,7 @@ OUT_CSV  = os.path.join(DATA_DIR, "stat_test_results.csv")
 
 
 def mwu(a, b):
-    """両側 Mann-Whitney U 検定。U 統計量と p 値を返す。"""
+    """両側 Mann-Whitney U 検定。U 統計量と p 値を返す、E""
     stat, p = mannwhitneyu(a, b, alternative="two-sided")
     return float(stat), float(p)
 
@@ -48,15 +44,14 @@ def main():
     baseline = get("baseline")
 
     # ------------------------------------------------------------------
-    # シナリオB：各条件 vs 緑ひげなし（= baseline と同値）
-    # ------------------------------------------------------------------
+    # シナリオB�E�各条件 vs 緑�Eげなし！E baseline と同値�E�E    # ------------------------------------------------------------------
     scenario_b = [
-        ("e=0.0 (完全認識)", "e=0.0"),
+        ("e=0.0 (完�E認譁E", "e=0.0"),
         ("e=0.05",           "e=0.05"),
         ("e=0.10",           "e=0.10"),
         ("e=0.20",           "e=0.20"),
     ]
-    ref_b = get("緑ひげなし")
+    ref_b = get("緑�EげなぁE)
     for scenario_key, label in scenario_b:
         a = get(scenario_key)
         if len(a) == 0:
@@ -66,17 +61,16 @@ def main():
         results.append({
             "scenario": "B",
             "condition_a": label,
-            "condition_b": "緑ひげなし",
+            "condition_b": "緑�EげなぁE,
             "mean_a": np.mean(a),
             "mean_b": np.mean(ref_b),
             "U": u,
             "p_value": p,
             "significance": p_label(p),
         })
-        print(f"  B: {label} vs 緑ひげなし  U={u:.0f}  {p_label(p)}")
+        print(f"  B: {label} vs 緑�EげなぁE U={u:.0f}  {p_label(p)}")
 
-    # 隣接条件間（e=0.0 vs e=0.20）
-    a0  = get("e=0.0 (完全認識)")
+    # 隣接条件間！E=0.0 vs e=0.20�E�E    a0  = get("e=0.0 (完�E認譁E")
     a20 = get("e=0.20")
     if len(a0) and len(a20):
         u, p = mwu(a0, a20)
@@ -93,7 +87,7 @@ def main():
         print(f"  B: e=0.0 vs e=0.20  U={u:.0f}  {p_label(p)}")
 
     # ------------------------------------------------------------------
-    # シナリオA：各条件 vs ベースケース (rate=1.0)
+    # シナリオA�E�各条件 vs ベ�Eスケース (rate=1.0)
     # ------------------------------------------------------------------
     scenario_a_rates = [0.2, 0.5, 2.0, 3.0, 5.0]
     ref_a = get("A_rate1.0")
@@ -107,7 +101,7 @@ def main():
         results.append({
             "scenario": "A",
             "condition_a": f"rate={rr}",
-            "condition_b": "rate=1.0（ベース）",
+            "condition_b": "rate=1.0�E��Eース�E�E,
             "mean_a": np.mean(a),
             "mean_b": np.mean(ref_a),
             "U": u,
@@ -117,14 +111,14 @@ def main():
         print(f"  A: rate={rr} vs rate=1.0  U={u:.0f}  {p_label(p)}")
 
     # ------------------------------------------------------------------
-    # シナリオC：各条件 vs ベースケース (d=0.1)
+    # シナリオC�E�各条件 vs ベ�Eスケース (d=0.1)
     # ------------------------------------------------------------------
     scenario_c = [
-        ("固定 d=0.0",  "d=0.0"),
-        ("中移動 d=0.3", "d=0.3"),
-        ("高移動 d=0.9", "d=0.9"),
+        ("固宁Ed=0.0",  "d=0.0"),
+        ("中移勁Ed=0.3", "d=0.3"),
+        ("高移勁Ed=0.9", "d=0.9"),
     ]
-    ref_c = get("低移動 d=0.1")
+    ref_c = get("低移勁Ed=0.1")
     if len(ref_c) == 0:
         ref_c = baseline
     for scenario_key, label in scenario_c:
@@ -136,7 +130,7 @@ def main():
         results.append({
             "scenario": "C",
             "condition_a": label,
-            "condition_b": "d=0.1（ベース）",
+            "condition_b": "d=0.1�E��Eース�E�E,
             "mean_a": np.mean(a),
             "mean_b": np.mean(ref_c),
             "U": u,
@@ -146,11 +140,10 @@ def main():
         print(f"  C: {label} vs d=0.1  U={u:.0f}  {p_label(p)}")
 
     # ------------------------------------------------------------------
-    # CSV 出力
-    # ------------------------------------------------------------------
+    # CSV 出劁E    # ------------------------------------------------------------------
     out_df = pd.DataFrame(results)
     out_df.to_csv(OUT_CSV, index=False)
-    print(f"\n-> {OUT_CSV} 保存完了")
+    print(f"\n-> {OUT_CSV} 保存完亁E)
     print()
     print(out_df[["scenario", "condition_a", "condition_b",
                   "mean_a", "mean_b", "U", "p_value", "significance"]].to_string(index=False))

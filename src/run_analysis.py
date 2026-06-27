@@ -13,6 +13,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 import matplotlib
 matplotlib.use("Agg")  # ディスプレイなしで実行
+matplotlib.rcParams["font.family"] = "Meiryo"
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from matplotlib.patches import Patch
@@ -42,7 +43,7 @@ plt.rcParams.update({
     "figure.dpi": 150,
     "savefig.dpi": 300,
     "savefig.bbox": "tight",
-    "font.family": "Noto Sans JP",
+    "font.family": "Meiryo",
 })
 
 # N_STEPS 設定根拠（指摘⑥への対応）：

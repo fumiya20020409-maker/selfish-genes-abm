@@ -9,6 +9,7 @@ import time
 import solara
 import matplotlib
 matplotlib.use("Agg")
+matplotlib.rcParams["font.family"] = "Meiryo"
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from matplotlib.figure import Figure

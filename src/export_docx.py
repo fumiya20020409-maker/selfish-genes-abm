@@ -1,9 +1,7 @@
-"""
-export_docx.py — paper.md を Word(.docx) に変換するスクリプト
-画像を埋め込み、単体ファイルで完結させる。
-
-実行方法：
-    cd selfish_genes
+﻿"""
+export_docx.py  Epaper.md めEWord(.docx) に変換するスクリプト
+画像を埋め込み、単体ファイルで完結させる、E
+実行方法！E    cd selfish_genes
     python src/export_docx.py
 出力：docs/paper.docx
 """
@@ -23,10 +21,9 @@ def add_heading(doc, text, level):
     doc.add_heading(text, level=level)
 
 def add_paragraph(doc, text):
-    """太字・イタリック記法を処理してパラグラフを追加"""
+    """太字�EイタリチE��記法を処琁E��てパラグラフを追加"""
     p = doc.add_paragraph()
-    # **bold** と *italic* を交互に処理
-    parts = re.split(r'(\*\*[^*]+\*\*|\*[^*]+\*)', text)
+    # **bold** と *italic* を交互に処琁E    parts = re.split(r'(\*\*[^*]+\*\*|\*[^*]+\*)', text)
     for part in parts:
         if part.startswith('**') and part.endswith('**'):
             run = p.add_run(part[2:-2])
@@ -35,16 +32,16 @@ def add_paragraph(doc, text):
             run = p.add_run(part[1:-1])
             run.italic = True
         else:
-            # $数式$ はそのままテキストとして挿入
+            # $数弁E はそ�EままチE��ストとして挿入
             p.add_run(part)
     return p
 
 def add_table_from_md(doc, lines):
-    """Markdown テーブルを docx テーブルに変換"""
+    """Markdown チE�EブルめEdocx チE�Eブルに変換"""
     rows = []
     for line in lines:
         if re.match(r'\|[-| :]+\|', line):
-            continue  # 区切り行スキップ
+            continue  # 区刁E��行スキチE�E
         cells = [c.strip() for c in line.strip('|').split('|')]
         rows.append(cells)
     if not rows:
@@ -64,8 +61,7 @@ def add_table_from_md(doc, lines):
 def main():
     doc = Document()
 
-    # 余白設定
-    for section in doc.sections:
+    # 余白設宁E    for section in doc.sections:
         section.top_margin    = Inches(1)
         section.bottom_margin = Inches(1)
         section.left_margin   = Inches(1.2)
@@ -78,7 +74,7 @@ def main():
     while i < len(lines):
         line = lines[i].rstrip('\n')
 
-        # --- 見出し ---
+        # --- 見�EぁE---
         if line.startswith('#### '):
             add_heading(doc, line[5:], 4); i += 1; continue
         if line.startswith('### '):
@@ -88,24 +84,24 @@ def main():
         if line.startswith('# '):
             add_heading(doc, line[2:], 1); i += 1; continue
 
-        # --- 水平線 ---
+        # --- 水平緁E---
         if re.match(r'^---+$', line):
             i += 1; continue
 
-        # --- 画像 ![...](path) ---
+        # --- 画僁E![...](path) ---
         img_match = re.match(r'!\[([^\]]*)\]\(([^)]+)\)', line)
         if img_match:
             alt, rel_path = img_match.group(1), img_match.group(2)
-            # ../data/figures/figN.png → data/figures/figN.png
+            # ../data/figures/figN.png ↁEdata/figures/figN.png
             img_path = os.path.normpath(os.path.join(BASE_DIR, "docs", rel_path))
             if os.path.exists(img_path):
                 doc.add_picture(img_path, width=Inches(5.5))
                 doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
             else:
-                doc.add_paragraph(f"[画像なし: {rel_path}]")
+                doc.add_paragraph(f"[画像なぁE {rel_path}]")
             i += 1; continue
 
-        # --- テーブル ---
+        # --- チE�Eブル ---
         if line.startswith('|'):
             table_lines = []
             while i < len(lines) and lines[i].startswith('|'):
@@ -115,13 +111,13 @@ def main():
             doc.add_paragraph()
             continue
 
-        # --- 参考文献（箇条書き "- "）---
+        # --- 参老E��献�E�箁E��書ぁE"- "�E�E--
         if line.startswith('- '):
             p = doc.add_paragraph(style='List Bullet')
             p.add_run(re.sub(r'[*_`]', '', line[2:]))
             i += 1; continue
 
-        # --- イタリックキャプション行（*図N:...* ）---
+        # --- イタリチE��キャプション行！E図N:...* �E�E--
         if line.startswith('*') and line.endswith('*') and len(line) > 2:
             p = doc.add_paragraph()
             run = p.add_run(line[1:-1])
@@ -130,7 +126,7 @@ def main():
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             i += 1; continue
 
-        # --- 空行 ---
+        # --- 空衁E---
         if line.strip() == '':
             i += 1; continue
 
@@ -139,7 +135,7 @@ def main():
         i += 1
 
     doc.save(OUT_PATH)
-    print(f"保存完了: {OUT_PATH}")
+    print(f"保存完亁E {OUT_PATH}")
 
 if __name__ == "__main__":
     main()

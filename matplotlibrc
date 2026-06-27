@@ -1,0 +1,3 @@
+font.family : Meiryo
+font.sans-serif : Meiryo, DejaVu Sans, Bitstream Vera Sans, sans-serif
+axes.unicode_minus : False

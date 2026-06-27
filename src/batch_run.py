@@ -18,8 +18,8 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 import matplotlib
 matplotlib.use("Agg")
+matplotlib.rcParams["font.family"] = "Meiryo"
 import matplotlib.pyplot as plt
-matplotlib.rcParams["font.family"] = "Noto Sans JP"
 import numpy as np
 import pandas as pd
 

@@ -8,13 +8,13 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 import matplotlib
 matplotlib.use("Agg")
+matplotlib.rcParams["font.family"] = "Meiryo"
 import matplotlib.pyplot as plt
-matplotlib.rcParams["font.family"] = "Noto Sans JP"
 plt.rcParams.update({
     "font.size": 12, "axes.titlesize": 13, "axes.labelsize": 12,
     "legend.fontsize": 10, "figure.dpi": 150,
     "savefig.dpi": 300, "savefig.bbox": "tight",
-    "font.family": "Noto Sans JP",
+    "font.family": "Meiryo",
 })
 
 import numpy as np
